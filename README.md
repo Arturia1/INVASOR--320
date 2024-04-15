@@ -34,7 +34,7 @@ Funcionalidades<br/>
   * UFOs - inimigos que apareceram pelo mapa que devem ser destruídos. <br/>
 
 # Telas <br/>
-![](https://github.com/Arturia1/INVASOR-320/blob/main/TELAS%20INVASOR%20320.png)
+![](https://github.com/Arturia1/INVASOR--320/blob/main/TELAS%20INVASOR.png)
 
 
 
