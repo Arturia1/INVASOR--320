@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta name="description" content="Bullet Pools" />
+  <link rel="stylesheet" type="text/css" href="style.css"> <!-- Referência ao arquivo CSS externo -->
+  <title>Invader 320</title>
+  <meta charset="utf-8">
+  <script src="http://127.0.0.1:5500/phaser.min.js"></script>
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .fade-in {
+      animation: fadeIn 2s;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .fade-in-out {
+      animation: fadeInOut 2s infinite;
+    }
+
+    #titulo {
+      position: absolute;
+      left: 400px; /* posiciona a 90px para a esquerda */
+      top: 280px; /* posiciona a 70px para baixo */
+    }
+
+    #mensagem {
+      text-align: center;
+      display: none;
+      margin-top: 80px; /* Move a mensagem 80px abaixo do título */
+    }
+  </style>
+</head>
+<body>
+  <div id="titulo" class="fade-in">
+    <img src="assets/titulo.png" alt="Descrição da imagem">
+  </div>
+  <p></p>
+  <div id="mensagem" class="fade-in-out" style="text-align: center;"> Aperte espaço para abrir o menu </div>
+  <script>
+    function showMenu() {
+      // Substitua 'outra\_pagina.html' pelo caminho da sua outra página HTML
+      window.location.href = 'Menu.html';
+    }
+
+    // Mostra o título com fade-in após um atraso de 2 segundos
+    setTimeout(function() {
+      document.getElementById('titulo').classList.add('fade-in');
+      // Após o fade-in do título, mostra a mensagem
+      setTimeout(function() {
+        document.getElementById('mensagem').style.display = 'block';
+        // Adiciona um evento para mostrar a outra página ao pressionar a tecla de espaço
+        document.addEventListener('keydown', function(event) {
+          if (event.code === 'Space') {
+            document.getElementById('mensagem').style.display = 'none';
+            showMenu();
+          }
+        });
+      }, 2000); // Espera 2 segundos antes de mostrar a mensagem
+    }, 2000); // Espera 2 segundos antes de mostrar o título
+  </script>
+</body>
+</html>

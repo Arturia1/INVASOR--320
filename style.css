@@ -1,0 +1,73 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+    animation-duration: 3s;
+}
+        
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column; /* Adicionado para empilhar elementos verticalmente */
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace; /* fonte em formato retrô */
+}
+
+#titulo {
+    margin-bottom: 20px; /* Espaçamento entre o título e o menu */
+}
+
+#titulo2 {
+    position: absolute; 
+    left: 400px; /* posiciona a 90px para a esquerda */ 
+    top: 280px; /* posiciona a 70px para baixo */
+}
+
+.menuContainer {
+    display: flex; /* Define o layout flexível para os itens do menu */
+    flex-direction: row; /* Adicionado para empilhar elementos verticalmente */
+    align-items: center; /* Alinha os itens horizontalmente no centro */
+}
+
+.menuItem {
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: 2px solid #fff; /* borda branca */
+    border-radius: 5px;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.menuItem2 {
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: 2px solid #fff; /* borda branca */
+    border-radius: 5px;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.menuItem:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* leve mudança de cor ao passar o mouse */
+}
+
+ #mensagem {
+            text-align: center;
+            display: none;
+        }

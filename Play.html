@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    
+    <meta name="description" content="Bullet Pools" />
+    <title>Invader 320</title>
+    <meta charset="utf-8">
+    <script src="http://127.0.0.1:5500/phaser.min.js"></script>
+    <meta name="description" content="Bullet Pools" />
+    <title>Invader 320</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+    <div id="game" class="fade-in">
+        <img src="assets/play.png" alt="Descrição da imagem">
+    </div>
+
+    
+    <div id="menu" class="menuContainer fade-in">
+        <div class="menuItem" onclick="startGame()">Arcade</div>
+        <div class="menuItem" onclick="startGameBoss()">Boss</div>
+        <div class="menuItem" onclick="backMenu()">Back</div>
+    </div>
+
+    <script>
+        // Função para iniciar o jogo
+        function startGame() {
+            // Remova o conteúdo atual
+            document.body.innerHTML = '';
+
+            // Crie um novo script para carregar o game.js
+            let gameScript = document.createElement('script');
+            gameScript.src = 'http://127.0.0.1:5500/game.js';
+            document.body.appendChild(gameScript);
+        }
+
+
+        function startGameBoss() {
+            // Remova o conteúdo atual
+            document.body.innerHTML = '';
+
+            // Crie um novo script para carregar o game.js
+            let gameScript = document.createElement('script');
+            gameScript.src = 'http://127.0.0.1:5500/gameboss.js';
+            document.body.appendChild(gameScript);
+        }
+
+        function backMenu() {
+            window.location.href = 'Menu.html';
+        }
+
+    </script>
+
+</body>
+</html>
