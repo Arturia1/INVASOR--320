@@ -21,6 +21,7 @@ let player;
 let cursors;
 let aliens;
 let bullets;
+let bulletaliens;
 let background;
 let score = 0;
 let scoreText;
@@ -76,6 +77,7 @@ function preload() {
     this.load.image('bullet', 'assets/bullet1.png');
     this.load.image('BG', 'assets/back2.png');
     this.load.image('asteroid_big', 'assets/asteroid_big.png')
+    this.load.image('bulletaliens', 'assets/bulletboss.png');
     this.load.image('asteroid_small', 'assets/asteroid_small.png')
     this.load.audio('backgroundMusic', 'assets/audio/bgm.mp3');
     this.load.audio('shootSound', 'assets/audio/arcade-beep.mp3');
@@ -159,10 +161,20 @@ function create() {
         let progress = countdownEvent.getProgress();
         
     }
+    this.time.addEvent({
+        delay: 1500, // Intervalo de 1,5 segundos
+        callback: aliensFire,
+        callbackScope: this,
+        loop: true // Loop infinito
+    });
 
+    bulletaliens = this.physics.add.group();
+    
     // Add collision
     this.physics.add.collider(bullets, aliens, bulletHitAlien, null, this);
     this.physics.add.collider(player, aliens, playerHitAlien, null, this);
+    this.physics.add.collider(player, bulletaliens, bulletHitPlayer, null, this);
+
 
     scoreText = this.add.text(20, 20, 'Score: 0', { fontSize: '24px', fill: '#fff' });
 
@@ -257,6 +269,26 @@ function fireBullet() {
     // Set the bullet's velocity based on the player's angle
     bullet.setVelocityX(Math.cos(Phaser.Math.DegToRad(player.angle)) * 300);
     bullet.setVelocityY(Math.sin(Phaser.Math.DegToRad(player.angle)) * 300);
+}
+
+function aliensFire() {
+    // Calcula o ângulo entre o boss e o jogador
+    let angleToPlayer = Phaser.Math.Angle.Between(aliens.x, aliens.y, player.x, player.y);
+
+    // Cria um projétil na posição do boss
+    let bullet2 = bulletaliens.create(aliens.x, aliens.y, 'bulletaliens');
+    
+    // Define a velocidade do projétil em direção ao jogador
+    bullet2.setVelocityX(Math.cos(angleToPlayer) * 300); 
+    bullet2.setVelocityY(Math.sin(angleToPlayer) * 300); 
+}
+
+
+function bulletHitPlayer(bullet2, player) {
+    this.physics.pause();
+    
+    displayGameOverMessage.call(this);
+    this.input.keyboard.once('keydown-R', restartGame, this);
 }
 
 function bulletHitAlien(bullet, alien) {

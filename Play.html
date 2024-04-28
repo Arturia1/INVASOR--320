@@ -19,14 +19,15 @@
 
     
     <div id="menu" class="menuContainer fade-in">
-        <div class="menuItem" onclick="startGame()">Arcade</div>
+        <div class="menuItem" onclick="startLevel1()">Level 1</div>
+        <div class="menuItem" onclick="startLevel2()">Level 2</div>
         <div class="menuItem" onclick="startGameBoss()">Boss</div>
         <div class="menuItem" onclick="backMenu()">Back</div>
     </div>
 
     <script>
         // Função para iniciar o jogo
-        function startGame() {
+        function startLevel1() {
             // Remova o conteúdo atual
             document.body.innerHTML = '';
 
@@ -36,6 +37,15 @@
             document.body.appendChild(gameScript);
         }
 
+        function startLevel2() {
+            // Remova o conteúdo atual
+            document.body.innerHTML = '';
+
+            // Crie um novo script para carregar o game.js
+            let gameScript = document.createElement('script');
+            gameScript.src = 'http://127.0.0.1:5500/gamerename.js';
+            document.body.appendChild(gameScript);
+        }
 
         function startGameBoss() {
             // Remova o conteúdo atual
