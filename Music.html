@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Player</title>
+</head>
+<body>
+  <audio id="bgMusic" autoplay loop>
+    <source src="assets/audio/bgm.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+        const isMusicPlaying = localStorage.getItem('isMusicPlaying');
+
+    if (isMusicPlaying === 'true') {
+    const bgMusic = document.getElementById('bgMusic');
+    if (bgMusic.paused) {
+        bgMusic.play();
+    }
+    }
+
+    function toggleMusic() {
+    const bgMusic = document.getElementById('bgMusic');
+    if (bgMusic.paused) {
+        bgMusic.play();
+        localStorage.setItem('isMusicPlaying', 'true'); // Store music state
+    } else {
+        bgMusic.pause();
+        localStorage.setItem('isMusicPlaying', 'false'); // Store music state
+    }
+    }
+    // This script can handle music playback control
+    // For simplicity, you can have controls to play/pause the music
+    // You can also include functionality to control volume, etc.
+  </script>
+</body>
+</html>

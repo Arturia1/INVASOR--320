@@ -46,6 +46,7 @@ function restartGame() {
 
     // Reset the score
     score = 0;
+    countdown = 60.0;
     scoreText.setText('Score: 0');
     fireAngle = -90;
 
@@ -71,26 +72,38 @@ function goToMenu() {
 }
 
 function preload() {
-    this.load.image('ship', 'assets/ship2.png');
+    this.load.image('ship', 'assets/ship3.png');
     this.load.image('alien', 'assets/ufo.png');
-    this.load.image('bullet', 'assets/bullet1.png');
-    this.load.image('BG', 'assets/back2.png');
-    this.load.image('asteroid_big', 'assets/asteroid_big.png')
-    this.load.image('asteroid_small', 'assets/asteroid_small.png')
-    this.load.audio('backgroundMusic', 'assets/audio/bgm.mp3');
-    this.load.audio('shootSound', 'assets/audio/arcade-beep.mp3');
+    this.load.image('bullet', 'assets/bullet8.png');
+    this.load.image('BG', 'assets/back3.png');
+    this.load.image('asteroid_big', 'assets/asteroid_big.png');
+    this.load.image('asteroid_small', 'assets/asteroid_small.png');
+    this.load.spritesheet('explosion', 'assets/explosionimg.png', { frameWidth: 32, frameHeight: 16, endFrame: 4});
+    this.load.spritesheet('explosionbig', 'assets/explosionbig.png', { frameWidth: 22, frameHeight: 38, endFrame: 6});
+    this.load.audio('stage_music', 'assets/audio/stagemusic.mp3');
+    this.load.audio('explosion_alien', 'assets/audio/explosion.mp3');
+    this.load.audio('shoot_sound', 'assets/audio/arcade-beep.mp3');
     this.load.audio('gameoversong', 'assets/audio/gameover.mp3');
 }
 
 function create() {
     background = this.add.image(0, 0, 'BG').setOrigin(0);
     background.setScale(800 / background.width, 600 / background.height);
+    this.stageMusic = this.sound.add("stage_music");
+    var musicConfig = {
+        mute: false,
+        volume: 0.2
+    }
+    this.stageMusic.play(musicConfig);
+    
 
     player = this.physics.add.sprite(400, 500, 'ship').setAngle(90);
 
     player.body.setSize(player.width * 0.5, player.height * 0.5); 
 
     player.setCollideWorldBounds(true);
+
+    this.beamSound = this.sound.add("shoot_sound");
 
     cursors = this.input.keyboard.createCursorKeys();
     this.input.keyboard.on('keydown-SPACE', fireBullet, this);
@@ -149,6 +162,8 @@ function create() {
 
         let alien = aliens.create(spawnX, spawnY, 'alien');
 
+        this.explosionSound = this.sound.add("explosion_alien");
+
         // Set velocity towards player
         let angle = Phaser.Math.Angle.Between(alien.x, alien.y, player.x, player.y);
         let velocityX = Math.cos(angle) * 100;
@@ -157,11 +172,28 @@ function create() {
 
         // Decrease spawn delay based on time elapsed
         let progress = countdownEvent.getProgress();
+
         
     }
 
+    this.anims.create({
+        key: 'explode',
+        frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 4 }),
+        frameRate: 30,
+        repeat: 0,
+        hideOnComplete: true
+    });
+
+    this.anims.create({
+        key: 'explosionbig',
+        frames: this.anims.generateFrameNumbers('explosionbig', { start: 0, end: 6 }),
+        frameRate: 30,
+        repeat: 0,
+        hideOnComplete: true
+    });
+
     // Add collision
-    this.physics.add.collider(bullets, aliens, bulletHitAlien, null, this);
+    this.physics.add.overlap(bullets, aliens, bulletHitAlien, null, this);
     this.physics.add.collider(player, aliens, playerHitAlien, null, this);
 
     scoreText = this.add.text(20, 20, 'Score: 0', { fontSize: '24px', fill: '#fff' });
@@ -257,25 +289,39 @@ function fireBullet() {
     // Set the bullet's velocity based on the player's angle
     bullet.setVelocityX(Math.cos(Phaser.Math.DegToRad(player.angle)) * 300);
     bullet.setVelocityY(Math.sin(Phaser.Math.DegToRad(player.angle)) * 300);
+    
+    this.beamSound.play();
 }
 
 function bulletHitAlien(bullet, alien) {
+    let explosion = this.add.sprite(alien.x, alien.y, 'explosion');
+explosion.anims.play('explode');
+explosion.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+    explosion.destroy();
     bullet.destroy();
     alien.destroy();
-
+    this.explosionSound.play();
     score += 10;
     scoreText.setText('Score: ' + score);
 
-    if ( countdown === 0) {
+    if (countdown === 0) {
         displayVictoryMessage.call(this);
         this.physics.pause();
         this.input.keyboard.once('keydown-R', restartGame, this);
     }
+}, this);
 }
 
 function playerHitAlien(player, alien) {
-     // Pause the game
+    let explosion2 = this.add.sprite(player.x, player.y, 'explosion');
+    explosion2.anims.play('explode');
+    explosion2.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+    explosion2.destroy();
+    this.explosionSound.play();
+    player.disableBody(true, true)})
+    // Pause the game
      this.physics.pause();
+     this.stageMusic.stop();
 
      // Stop the countdown and alien spawning events
      countdownEvent.remove();
@@ -330,8 +376,8 @@ function displayVictoryMessage() {
 
 function displayGameOverMessage() {
     saveScore.call(this);
-    // Crie um texto para exibir a mensagem de vitória
-    let gameoverText = this.add.text(400, 300, 'Game over!', { fontSize: '64px', fill: '#fff' });
+
+    let gameoverText = this.add.text(400, 300, 'Game Over!', { fontSize: '64px', fill: '#fff' });
     let gameoverauxText = this.add.text(400, 340, 'Pressione R para reiniciar!', { fontSize: '15px', fill: '#fff' });
     gameoverText.setOrigin(0.5);
     gameoverauxText.setOrigin(0.5);

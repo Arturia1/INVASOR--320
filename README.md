@@ -12,10 +12,12 @@ Um horda hostil se aproxima da colônia humana situada na constelação de árie
 Aprender como funciona o desenvolvimento de um projeto na prática
 
 # Fases
-O jogo terá uma fase única. Inimigue os animigos quem vem em sua direção e enfrente o boss final.
+O jogo terá duas fases. Elimine os inimigos quem vem em sua direção na fase 1 e enfrente o boss final.
 
 # Fases	Descrição
-Fase única onde os UFOs irão avançando nas mais diversas ordens. Quanto mais inimigos abatidos, os próximos serão mais fortes e precisará de mais tempo para abatê-los.
+Fase 1: Derrote os UFOs que irão avançando nas sua direção nas mais diversas ordens. Destrua a maior quantidade possível de UFOS dentro de 60 segundos.
+
+Fase 2: Derrote o vilão Boros salve a humanidade.
 
 # Requisitos
 Funcionalidades<br/>

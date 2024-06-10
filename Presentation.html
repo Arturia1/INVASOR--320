@@ -40,6 +40,10 @@
   </style>
 </head>
 <body>
+  <iframe src="Music.html" frameborder="0" style="display: none;"></iframe>
+  <audio id="bgMusic" autoplay>
+    <source src="assets/audio/bgm.mp3" type="audio/mp3">
+  </audio>
   <div id="titulo" class="fade-in">
     <img src="assets/titulo.png" alt="Descrição da imagem">
   </div>
@@ -54,6 +58,7 @@
     // Mostra o título com fade-in após um atraso de 2 segundos
     setTimeout(function() {
       document.getElementById('titulo').classList.add('fade-in');
+      document.getElementById('bgMusic').play();
       // Após o fade-in do título, mostra a mensagem
       setTimeout(function() {
         document.getElementById('mensagem').style.display = 'block';
@@ -66,6 +71,24 @@
         });
       }, 2000); // Espera 2 segundos antes de mostrar a mensagem
     }, 2000); // Espera 2 segundos antes de mostrar o título
+    
+    if (isMusicPlaying === 'true') {
+      const bgMusic = document.getElementById('bgMusic');
+      if (bgMusic.paused) {
+        bgMusic.play();
+      }
+    }
+
+    function toggleMusic() {
+      const bgMusic = document.getElementById('bgMusic');
+      if (bgMusic.paused) {
+        bgMusic.play();
+        localStorage.setItem('isMusicPlaying', 'true'); // Store music state
+      } else {
+        bgMusic.pause();
+        localStorage.setItem('isMusicPlaying', 'false'); // Store music state
+      }
+    }
   </script>
 </body>
 </html>

@@ -7,16 +7,25 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+    <iframe src="Music.html" frameborder="0" style="display: none;"></iframe>
     <div id="titulo" class="fade-in">
         <img src="assets/options.png" alt="Descrição da imagem">
     </div>
     <div class="fade-in">
+        <div class="menuItem" onclick="toggleMusic()">Mute</div>
         <div class="menuItem" onclick="backMenu()">Back</div>
     </div>
     <script>
+        function toggleMusic() {
+        if (parent.toggleMusic) {
+            parent.toggleMusic(); // Call the toggleMusic function from the parent frame
+        }
+    }
         function backMenu() {
             window.location.href = 'Menu.html';
         }
     </script>
+
+
 </body>
 </html>
